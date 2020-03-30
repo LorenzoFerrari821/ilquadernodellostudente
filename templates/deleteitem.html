@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Elimina oggetto</title>
+{% endblock %}
+
+{%block body %}
+    {% if msg_success %}
+        <a href='{% url 'users:Profile' user.id %}' class="btn btn-success btn-lg btn-block" role="button">{{ msg_success }}</a>
+    {% else %}
+        <div class="row">
+            <div class="col-sm-4"></div>       <!-- span di 4 colonne vuote-->
+            <div class="col-sm-3">              <!-- 3 colonne centrali-->
+                <div  class="thumbnail">
+                    <p>Vuoi davvero eliminare l'oggetto?</p>
+                    <form  method="post" action=""> <!-- Inoltrato alla stessa pagina-->
+                        {% csrf_token %}
+                        {{ form.as_p }}   <!-- inserisce i campi del form automaticamente-->
+                        <button type="submit" class="btn btn-success">Conferma</button> <a href="javascript:history.back()" class="btn btn-info" role="button">Indietro</a>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-5"></div>       <!-- span di 5 colonne vuote-->
+        </div>
+
+    {% endif %}
+{% endblock %}
+
+
+

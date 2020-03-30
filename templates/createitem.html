@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Nuova inserzione</title>
+{% endblock %}
+
+{%block body %}
+    <div class="row">
+        {% if msg_success %}
+            <div class="col-sm-12">
+                <a href='{% url "users:Profile" user.id %}' class="btn btn-success btn-lg btn-block" role="button">{{ msg_success}}</a>
+            </div>
+        {% else %}
+            <div class="col-sm-4"></div>       <!-- span di 4 colonne vuote-->
+            <div class="col-sm-3">              <!-- 3 colonne centrali-->
+                <div  class="thumbnail">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                        <button class="btn btn-success" role="button" type="submit">Crea inserzione</button> <a href="javascript:history.back()" class="btn btn-info" role="button">Indietro</a>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-5"></div>       <!-- span di 5 colonne vuote-->
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+

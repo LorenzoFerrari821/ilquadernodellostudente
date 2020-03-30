@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Carrello</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   <!--Importa il css per le stelle -->
+{% endblock %}
+
+{%block body %}
+    <div class="row">
+        {% if cart %}
+            <div class="col-sm-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h1 style="font-weight: bold;text-align: center">Riepilogo carrello</h1>
+                        <h3>Numero di oggetti nel carrello: {{ cart.items.count }}</h3>
+                        <h2>Prezzo totale: {{ cart.get_total }}€</h2>
+                        <a href="{% url 'checkout:Payment' cart.id %}" class="btn btn-success " role="button">Procedi all'acquisto</a>
+                        <a href='{% url 'catalog:Search' %}' class="btn btn-primary " role="button">Continua gli acquisti</a>
+                    </div>
+                </div>
+            </div>
+            {% for item in cart.get_cart_items %}
+                {% if forloop.first %}
+                    <div class="col-sm-3 ">
+                        <div  class="thumbnail">
+                            <img style="height: 300px" src="{{ item.image.url }}" class="img-responsive">
+                            <div class="caption">
+                                <h2>{{ item.name }}</h2>
+                                {% if item.school_level == "U" %}
+                                    <h4>Livello scolastico: Università</h4>
+                                {% elif item.school_level == "S" %}
+                                    <h4>Livello scolastico: Superiori</h4>
+                                {% else %}
+                                    <h4>Livello scolastico: Medie</h4>
+                                {% endif %}
+                                <h3>Voto utenti:            {% with voto=vote_list.pop %}
+                                    {% if voto == 0 %}                                                                     <!-- A seconda del voto inseriamo le stelle corrette-->
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 0.5 %}
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 1 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 1.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 2 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 2.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span  class="fa fa-star-o"></span>
+                                    {% elif voto == 3 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 3.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 4 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 4.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                    {% elif voto == 5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                    {% endif %}
+                                {% endwith %}
+                                    (Votanti:{{ reviews.pop }})
+                                </h3>
+                                <h3>Prezzo: {{ item.price }}€ </h3>
+                                <!-- Dettagli-->
+                                <a href="{% url 'catalog:Itemdetail' item.id %}" class="btn btn-primary " role="button">Dettagli</a>
+                                <!-- Elimina oggetto-->
+                                <a href="{% url 'checkout:Deleteitem' item.id %}" class="btn btn-primary " role="button">Elimina oggetto</a>
+                            </div>
+                        </div>
+                    </div>
+                {% elif forloop.counter0|divisibleby:'3' %}
+                    <div class="col-sm-3 col-sm-offset-3 ">         <!--Il primo oggetto di ogni riga lo sposta a destra di 3 colonne per lasciare le prime colonne libere-->
+                        <div  class="thumbnail">
+                            <img style="height: 300px" src="{{ item.image.url }}" class="img-responsive">
+                            <div class="caption">
+                                <h2>{{ item.name }}</h2>
+                                {% if item.school_level == "U" %}
+                                    <h4>Livello scolastico: Università</h4>
+                                {% elif item.school_level == "S" %}
+                                    <h4>Livello scolastico: Superiori</h4>
+                                {% else %}
+                                    <h4>Livello scolastico: Medie</h4>
+                                {% endif %}
+                                <h3>Voto utenti:            {% with voto=vote_list.pop %}
+                                    {% if voto == 0 %}                                                                     <!-- A seconda del voto inseriamo le stelle corrette-->
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 0.5 %}
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 1 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 1.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 2 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 2.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span  class="fa fa-star-o"></span>
+                                    {% elif voto == 3 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 3.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 4 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 4.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                    {% elif voto == 5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                    {% endif %}
+                                {% endwith %}
+                                    (Votanti:{{ reviews.pop }})
+                                </h3>
+                                <h3>Prezzo: {{ item.price }}€ </h3>
+
+                                <!-- Dettagli-->
+                                <a href="{% url 'catalog:Itemdetail' item.id %}" class="btn btn-primary " role="button">Dettagli</a>
+                                <!-- Elimina oggetto-->
+                                <a href="{% url 'checkout:Deleteitem' item.id %}" class="btn btn-primary " role="button">Elimina oggetto</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-sm-3 ">
+                        <div  class="thumbnail">
+                            <img style="height: 300px" src="{{ item.image.url }}" class="img-responsive">
+                            <div class="caption">
+                                <h2>{{ item.name }}</h2>
+                                {% if item.school_level == "U" %}
+                                    <h4>Livello scolastico: Università</h4>
+                                {% elif item.school_level == "S" %}
+                                    <h4>Livello scolastico: Superiori</h4>
+                                {% else %}
+                                    <h4>Livello scolastico: Medie</h4>
+                                {% endif %}
+                                <h3>Voto utenti:            {% with voto=vote_list.pop %}
+                                    {% if voto == 0 %}                                                                     <!-- A seconda del voto inseriamo le stelle corrette-->
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 0.5 %}
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 1 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 1.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 2 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 2.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span  class="fa fa-star-o"></span>
+                                    {% elif voto == 3 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 3.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 4 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-o"></span>
+                                    {% elif voto == 4.5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star-half-o"></span>
+                                    {% elif voto == 5 %}
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                        <span style="color: orange" class="fa fa-star checked"></span>
+                                    {% endif %}
+                                {% endwith %}
+                                    (Votanti:{{ reviews.pop }})
+                                </h3>
+                                <h3>Prezzo: {{item.price }}€ </h3>
+
+                                <!-- Dettagli-->
+                                <a href="{% url 'catalog:Itemdetail' item.id  %}" class="btn btn-primary " role="button">Dettagli</a>
+                                <!-- Elimina oggetto-->
+                                <a href="{% url 'checkout:Deleteitem' item.id %}" class="btn btn-primary " role="button">Elimina oggetto</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <a href='{% url 'catalog:Search' %}' class="btn btn-warning btn-lg btn-block" role="button">Non hai ancora nessun oggetto nel carrello, premi questo bottone
+                andare alla pagina di ricerca avanzata</a>
+        {% endif %}
+    </div>
+{% endblock %}

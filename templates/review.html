@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Lascia un recensione</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">    <!--Importa il css per le stelle -->
+{% endblock %}
+
+{%block body %}
+    {% if msg %}
+        <a href='{% url 'home:Home' %}' class="btn btn-danger btn-lg btn-block" role="button">{{ msg }}</a>
+    {% else %}
+        <div class="row">
+            <div class="col-sm-3"></div>       <!-- span di 3 colonne vuote-->
+            <div class="col-sm-5">              <!-- 5 colonne centrali-->
+                <div  class="thumbnail">
+                    <form  method="post" action=""> <!-- Inoltrato alla stessa pagina-->
+                        {% csrf_token %}
+                        <h3 style=" padding-bottom:20px; text-align: left">Lascia un voto da 0 a 5 per l'oggetto: {{ item.name }}. In questo modo aiuterai gli altri utenti e migliorerai la qualità del nostro servizio!</h3>
+                        <p>Trascina l'indicatore per selezionare il voto che intendi lasciare a questo oggetto</p>
+                        <style>
+                            .slider {
+                                -webkit-appearance: none;
+                                height: 10px;
+                                background: gray;
+                            }
+                            .slider::-webkit-slider-thumb {
+                                -webkit-appearance: none;
+                                width: 27px;
+                                height: 27px;
+                                background:url("/static/images/stella.png");
+                                cursor: pointer;
+                            }
+                        </style>
+                        <div class="slidecontainer">
+                            <input type="range" min="0" max="10" value="0" class="slider" id="slider">
+                            <h3>Voto: <span id="vote"></span></h3>
+                            <input style="visibility: hidden; height: 0;" type="text" name="rating" id="rating">               <!-- Campo input invisible, contiene il valore per la view-->
+                        </div>
+                        <script>
+                            var slider = document.getElementById("slider");                                             <!--Variabile collegata allo slider-->
+                            var vote = document.getElementById("vote");                                                 <!--Variabile collegata al voto-->
+                            var rating=document.getElementById("rating");                                               <!--Variabile collegata al campo nascosto-->
+                            vote.innerHTML = slider.value;                                                              <!--Imposta il valore iniziale-->
+                            slider.oninput = function() {                                                               <!--Si attiva all'input utente-->
+                                vote.innerHTML = this.value/2;                                                            <!--Aggiorna il voto-->
+                                rating.value=this.value/2;
+                            }
+                        </script>
+                        <h4 style="text-align: left">Un voto pari a 0 significa che non sei affatto soddisfatto della qualità dell'oggetto, mentre un voto pari a 5 significa che sei estremamente soddisfatto.</h4>
+                        <button type="submit" class="btn btn-success">Lascia voto</button> <a href="javascript:history.back()" class="btn btn-info" role="button">Indietro</a>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>       <!-- span di 4 colonne vuote-->
+        </div>
+    {% endif %}
+{% endblock %}

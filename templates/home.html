@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Homepage</title>
+{% endblock %}
+
+{%block body %}
+            <div  class="thumbnail">                                                                                    <!--riquadro-->
+                <img  src="/static/images/logo.png" class="img-responsive">
+            </div>
+        <div class="row">
+            <div class="col-sm-6">                                                                                      <!--Pannello a sinistra largo 6 colonne-->
+                <div  class="thumbnail">
+                    <h3 style="text-align: left;">Benvenuto su Ilquadernodellostudente! Su questo sito hai la possibilità di acquistare o vendere i tuoi appunti scolastici
+                        in pochi semplici passaggi. Nel nostro catalogo sono presenti appunti su ogni materia e argomento, con la possibilità di scegliere tra 3 diversi livelli
+                        scolastici: medie, superiori e università. Per usufruire a pieno del nostro servizio è obbligatoria la registrazione, ma puoi cominciare subito a cercare se c'è qualcosa che ti interessa
+                        nel nostro catalogo grazie alla funzione di
+                        <a href='{% url 'catalog:Search' %}'>RICERCA AVANZATA</a></h3>
+                </div>
+            </div>
+            <div class="col-sm-6">                                                                                      <!--Pannello a destra largo 6 colonne-->
+                <div  class="thumbnail">
+                    {% if user.is_authenticated %}
+                        <h3 style="text-align: left;">Hai già eseguito l'accesso al sito! Se vuoi eseguire il logout clicca <a href='{% url 'users:Logout' %}'>QUI</a> </h3>
+                    {% else %}
+                        <h3 style="text-align: left;">Sembra che tu non abbia ancora fatto il login! Per acquistare o vendere oggetti,lasciare recensioni e comunicare con altri utenti è necessario autenticarsi.
+                            Per eseguire il login oppure per creare un nuovo account clicca <a href='{% url 'users:Login' %}'>QUI</a></h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+{% endblock %}

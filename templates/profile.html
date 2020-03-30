@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {%if user_visited  %}
+        <title>Profilo dell'utente {{ user_visited }}</title>
+    {% else %}
+        <title>Profilo dell'utente {{ user }}</title>
+    {% endif %}
+{% endblock %}
+
+{%block body %}
+    {%if user_visited  %}               <!-- Pagina non personale, senza bottoni per i form,sulla destra inserire pannello messggi-->
+        <div class="row">
+            <div class="col-sm-4">              <!-- colonne per immagine-->
+                <div  class="thumbnail">
+                    {% if profile.image %}
+                        <img style="height: 500px" src="{{ profile.image.url }}" class="img-responsive">
+                    {% else %}
+                        <img style="height: 500px" src="/static/images/default.png" class="img-responsive">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-sm-4">              <!-- 4 colonne centrali-->
+                <div  class="thumbnail">
+                    <h2>Sezione dati personali:</h2>
+                    <h3><strong>Username: </strong>{{ user_visited.username }}</h3>
+                    <h3><strong>Nome: </strong>{{ user_visited.first_name }}</h3>
+                    <h3><strong>Cognome: </strong>{{ user_visited.last_name }}</h3>
+                    <h3><strong>Indirizzo Email: </strong>{{ user_visited.email }}</h3>
+                    <h3><strong>Titolo di studio: </strong>{{ profile.qualification }}</h3>
+                </div>
+            </div>
+            <div class="col-sm-4">    <!-- 4 colonne per messaggio-->
+                <div  class="thumbnail">
+                    <h2>Invia messaggio</h2>
+                    <p>Puoi inviare un messaggio a questo utente grazie a questa finestra. L'utente in questione riceverà una e-mail con il tuo messaggio.</p>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                        {% if msg_success %}
+                            <p style="color:green"><strong>Il tuo messaggio è stato inviato correttamente all'utente</strong></p>
+                        {% else %}
+                            <button class="btn btn-info" role="button" type="submit">Invia messaggio</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}                          <!--Proprio profilo-->
+        <div class="row">
+            <div class="col-sm-4">              <!-- colonne per immagine-->
+                <div  class="thumbnail">
+                    {% if profile.image %}
+                        <img style="height: 500px" src="{{ profile.image.url }}" class="img-responsive">
+                    {% else %}
+                        <img style="height: 500px" src="/static/images/default.png" class="img-responsive">
+                    {% endif %}
+                    <div style="padding-top: 10px; text-align: center"><a href='{% url 'users:Editimage' %}'class="btn btn-info" role="button" >Cambia immagine</a></div>
+                </div>
+            </div>
+            <div class="col-sm-4">              <!-- 4 colonne centrali-->
+                <div  class="thumbnail">
+                    <h2>Sezione dati personali:</h2>
+                    <h3><strong>Username: </strong>{{ user.username }}</h3>
+                    <h3><strong>Nome: </strong>{{ user.first_name }}</h3>
+                    <h3><strong>Cognome: </strong>{{ user.last_name }}</h3>
+                    <h3><strong>Indirizzo Email: </strong>{{ user.email }}</h3>
+                    <h3><strong>Titolo di studio: </strong>{{ profile.qualification }}</h3>
+                    <div style="text-align: left">
+                        <a  href='{% url 'users:Editdata' %}' class="btn btn-info" role="button">Modifica dati personali</a>
+                        <a  href='{% url 'users:Editpassword' %}' class="btn btn-info" role="button">Modifica password</a>
+                    </div>
+                    <h2>Sezione acquisti:</h2>
+                    <div style=" text-align: left"><a  href='{% url 'users:Purchaselist' %}' class="btn btn-info" role="button">Lista acquisti</a></div>
+
+                    <h2>Sezione vendite:</h2>
+                    <div style="text-align: left"><a  href='{% url 'users:Create' %}' class="btn btn-info" role="button">Crea una nuova inserzione</a></div>
+                    <div style="padding-top: 10px; text-align: left"><a  href='{% url 'users:Selectitem' %}' class="btn btn-info" role="button">Modifica/Elimina una inserzione</a></div>
+                </div>
+            </div>
+            <div class="col-sm-4">    <!-- 4 colonne vuote-->
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+

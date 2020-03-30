@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   <!--Importa il css per le stelle -->
+    <title>Catalogo</title>
+{% endblock %}
+
+{%block body %}
+    <div class="row">
+
+        {% if item_list %}                                                                                              <!-- ci sono oggetti-->
+            {% for item in item_list %}
+                <div class="col-sm-3 ">                                                                                 <!--3 colonne per ogni oggetti-->
+                    <div  class="thumbnail">                                                                            <!--riquadro-->
+                        <a href="{% url 'catalog:Itemdetail' item.id %}">
+                            <img style="height: 300px" src="{{ item.image.url }}" class="img-responsive">                         <!-- Immagine come link-->
+                        </a>
+
+                        <h2>{{ item.name }}</h2>
+                        {% if item.school_level == "U" %}
+                            <h4>Livello scolastico: Università</h4>
+                        {% elif item.school_level == "S" %}
+                            <h4>Livello scolastico: Superiori</h4>
+                        {% else %}
+                            <h4>Livello scolastico: Medie</h4>
+                        {% endif %}
+                        <h3>Voto utenti:            {% with voto=vote_list.pop %}
+                            {% if voto == 0 %}                                                                     <!-- A seconda del voto inseriamo le stelle corrette-->
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                            {% elif voto == 0.5 %}
+                                <span style="color: orange" class="fa fa-star-half-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                            {% elif voto == 1 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                            {% elif voto == 1.5 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star-half-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                            {% elif voto == 2 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                            {% elif voto == 2.5 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star-half-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span  class="fa fa-star-o"></span>
+                            {% elif voto == 3 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                            {% elif voto == 3.5 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star-half-o"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                            {% elif voto == 4 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star-o"></span>
+                            {% elif voto == 4.5 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star-half-o"></span>
+                            {% elif voto == 5 %}
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                                <span style="color: orange" class="fa fa-star checked"></span>
+                            {% endif %}
+                                {% endwith %}
+                            (Votanti:{{ reviews.pop }})
+                        </h3>
+                        <h3>Prezzo: {{ item.price }}€ </h3>
+                        <a href="{% url 'catalog:Itemdetail' item.id %}" class="btn btn-primary " role="button">Dettagli</a>         <!-- Bottone dettagli-->
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}                                                                                                      <!-- non ci sono oggetti-->
+            <div class="col-sm-12">
+                <a href='{% url 'home:Home' %}' class="btn btn-danger btn-lg btn-block" role="button">La tua ricerca non ha prodotto
+                    risultati, prova di nuovo utilizzando la funzione 'ricerca avanzata' oppure clicca su questo bottone per tornare alla home.</a>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+
+

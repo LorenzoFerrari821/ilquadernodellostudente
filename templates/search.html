@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Ricerca avanzata</title>
+{% endblock %}
+
+{%block body %}
+    <div class="row">
+        <div class="col-sm-4"></div>                                                                                    <!-- span di 4 colonne vuote-->
+        <div class="col-sm-3">                                                                                          <!-- 3 colonne centrali per il form-->
+            <div  class="thumbnail">
+                <form  method="post" action="{% url 'catalog:Itemlist' %}">                                             <!-- indirizza il form alla view per il filtraggio degli oggetti-->
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">Cerca</button>
+                    <a href="javascript:history.back()" class="btn btn-primary" role="button">Indietro</a>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-5"></div>       <!-- span di 5 colonne vuote-->
+    </div>
+{% endblock %}
+
+
+

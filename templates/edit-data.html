@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Cambio dati profilo</title>
+{% endblock %}
+
+{%block body %}
+    <div class="row">
+        {% if msg_success %}
+            <a href='{% url "users:Profile" '' %}' class="btn btn-success btn-lg btn-block" role="button">{{ msg_success}}</a>
+        {% else %}
+            <div class="col-sm-4"></div>       <!-- span di 4 colonne vuote-->
+            <div class="col-sm-3">              <!-- 3 colonne centrali-->
+                <div  class="thumbnail">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in eu %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                        {% for field in ep %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                        {% for field in ei %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                        {% for field in epw %}
+                            <p>
+                                {{ field.label_tag }}<br>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <small style="color: grey">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </p>
+                        {% endfor %}
+                        <button class="btn btn-success" role="button" type="submit">Modifica</button> <a href="javascript:history.back()" class="btn btn-info" role="button">Indietro</a> &emsp;&emsp;&emsp;&emsp;&emsp;  *:Campi obbligatori
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-5"></div>       <!-- span di 5 colonne vuote-->
+        {% endif %}
+    </div>
+{% endblock %}
